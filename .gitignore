@@ -46,6 +46,5 @@ $RECYCLE.BIN/
 *.msp
 
 # Windows shortcuts
-*.lnk
-
+__pycache__/
 # End of https://www.toptal.com/developers/gitignore/api/assembler,windows,linux
