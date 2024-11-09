@@ -1,9 +1,11 @@
 from enum import Enum,auto
 
 class TokenType(Enum):
-    INTEGER=auto()
+    NUMBER=auto()
     OPERATOR=auto()
     EOL=auto()
+    LPAREN=auto()
+    RPAREN=auto()
 
 class Token:
     def __init__(self,type_:TokenType,value:str):
