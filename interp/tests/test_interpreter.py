@@ -20,6 +20,8 @@ class TestInterpreter:
         assert interpreter.eval("22.2+33.3") == 55.5
     def test_term(self,interpreter):
         assert interpreter.eval("2+2-2") == 2
+        assert interpreter.eval("1+2+3")==6
+        assert interpreter.eval("2+2-4+3")==3
     def test_multiply(self,interpreter):
         assert interpreter.eval("2+2*2") == 6
     def test_parrens(self,interpreter):
@@ -27,3 +29,7 @@ class TestInterpreter:
         assert interpreter.eval("3*(2-2)-2") == -2
         assert interpreter.eval("((((2))))") == 2
         assert interpreter.eval("2*(2+4/(2+2))") == 6
+        assert interpreter.eval("2+(3*(2+2)/2)")==8
+    def test_unarn(self,interpreter):
+        assert interpreter.eval("---------++2") == -2
+        assert interpreter.eval("++++++2") == 2

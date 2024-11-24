@@ -1,6 +1,6 @@
 from .token import Token,TokenType
 from .lexer import Lexer
-from .ast import Number,BinOp
+from .ast import Number,BinOp,UnaryOp
 class Parser:
 
     def __init__(self):
@@ -10,10 +10,15 @@ class Parser:
         if self._current_token.type_ == type_:
             self._current_token=self._lexer.next()
         else:
-            print(self._current_token.value,type_)
             raise SyntaxError("invalid token order")
     def __factor(self):
         token = self._current_token
+        if token.value=="+":
+            self.__check_token(TokenType.OPERATOR)
+            return UnaryOp(token,self.__factor())
+        if token.value=="-":
+            self.__check_token(TokenType.OPERATOR)
+            return UnaryOp(token,self.__factor())
         if token.type_==TokenType.NUMBER:
             self.__check_token(TokenType.NUMBER)
             return Number(token)
@@ -23,7 +28,7 @@ class Parser:
             self.__check_token(TokenType.RPAREN)
             return result
         
-        raise SyntaxError("invalid token")
+        raise SyntaxError("invalid token order")
     def __term(self):
         result=self.__factor()
         while self._current_token and (self._current_token.type_==TokenType.OPERATOR):
@@ -31,7 +36,7 @@ class Parser:
                 break
             token = self._current_token
             self.__check_token(TokenType.OPERATOR)
-            return BinOp(result,token,self.__factor())
+            result=BinOp(result,token,self.__factor())
         return result
     def __expr(self)->BinOp:
         result=self.__term()
@@ -40,7 +45,7 @@ class Parser:
                 break
             token=self._current_token
             self.__check_token(TokenType.OPERATOR)
-            return BinOp(result,token,self.__term())
+            result= BinOp(result,token,self.__term())
         return result
     def eval(self,s:str)->BinOp:
         self._lexer.init(s)
