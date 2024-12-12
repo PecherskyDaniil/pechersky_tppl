@@ -17,7 +17,7 @@ class SpecialDict(dict):
                     for i in range(len(ops)):
                         if len(ops[i])==0:
                             p+=1
-                        elif self.__check_cond(int(keysarr[i]),ops[i][0],int(ops[i][1])):
+                        elif self.__check_cond(float(keysarr[i]),ops[i][0],float(ops[i][1])):
                             p+=1
                     if p==len(ops):
                         tempdict[key]=self.__dict__[key]
