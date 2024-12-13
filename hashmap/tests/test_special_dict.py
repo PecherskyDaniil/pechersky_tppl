@@ -13,6 +13,7 @@ def specialdict():
     a["(1,1)"]=11
     a["(5,2)"]=52
     a["(1)"]=1
+    a["-1"]=-1
     a["2"]=2
     a["3"]=3
     a["(1,2,3)"]=123
@@ -41,7 +42,7 @@ class TestSpecialDict:
         assert str(a)=="SpecialDict: {'2': 2}"
     def test_iloc(self,specialdict):
         assert specialdict.iloc(0) == 1
-        assert specialdict.iloc(15) == -1
+        assert specialdict.iloc(16) == -1
     @pytest.mark.parametrize(
         "cond,results",
          [(">2",[("3",3)]),
@@ -49,7 +50,7 @@ class TestSpecialDict:
          (">1,   =2,",[("(3,2,3)",323),("(3,2,1)",321)]),
          (",,",[("(3,2,3)",323),("(3,2,1)",321),("(3,3,3)",333),("(1,2,3)",123),("(10,4,7)",1047),("4,4,4",444)]),
          ("<>2",[("(1)",1),("3",3)]),
-         ("",[("(1)",1),("3",3),("2",2)]),
+         ("",[("(1)",1),("3",3),("2",2),("-1",-1)]),
          (",<2",[("(1,1)",11),("(4,1)",41)])]
     )
     def test_ploc(self,specialdict,cond,results):

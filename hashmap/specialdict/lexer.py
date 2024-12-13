@@ -20,10 +20,16 @@ class Lexer():
             self._current_char=self._text[self._pos]
     def __number(self):
         result=""
+        if self._current_char=="-":
+            result+=self._current_char
+            self.__forward()
         while (self._current_char is not None and (self._current_char.isdigit()) or self._current_char=="."):
             result+=self._current_char
             self.__forward()
-        return result
+        if result!="-" and result!="-.":
+            return result
+        else:
+            raise SyntaxError("bad token")
     def __operator(self):
         result=self._current_char
         self.__forward()
@@ -40,7 +46,7 @@ class Lexer():
             if self._current_char.isspace():
                 self.__skip()
                 continue
-            elif self._current_char.isdigit():
+            elif self._current_char.isdigit() or self._current_char=="-":
                 return Token(TokenType.NUMBER,self.__number())
             elif self._current_char in ['>','<','=']:
                 return Token(TokenType.OPERATOR,self.__operator())
